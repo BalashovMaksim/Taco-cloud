@@ -4,6 +4,7 @@ import com.balashovmaksim.taco.tacocloud.model.Ingredient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,12 +16,14 @@ import java.util.Optional;
 public class JdbcIngredientRepository implements IngredientRepository{
     private final JdbcTemplate jdbcTemplate;
     @Override
+    @Transactional
     public Iterable<Ingredient> findAll() {
         return jdbcTemplate.query("select id, name, type from ingredient",
                 this::mapRowToIngredient);
     }
 
     @Override
+    @Transactional
     public Optional<Ingredient> findById(String id) {
         List<Ingredient> results = jdbcTemplate.query(
                 "select id, name, type from ingredient where id=?",
@@ -29,6 +32,7 @@ public class JdbcIngredientRepository implements IngredientRepository{
     }
 
     @Override
+    @Transactional
     public Ingredient save(Ingredient ingredient) {
         jdbcTemplate.update(
                 "insert into ingredient (id, name, type) values (?, ?, ?)",

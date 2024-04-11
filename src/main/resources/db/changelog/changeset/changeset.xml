@@ -20,6 +20,7 @@
                                     delivery_state VARCHAR(2) NOT NULL,
                                     delivery_zip VARCHAR(10) NOT NULL,
                                     cc_number VARCHAR(16) NOT NULL,
+                                    cc_expiration VARCHAR(5) NOT NULL,
                                     cc_cvv VARCHAR(3) NOT NULL,
                                     placed_at TIMESTAMP NOT NULL
             )
@@ -37,6 +38,7 @@
                                     id SERIAL PRIMARY KEY,
                                     name VARCHAR(50) NOT NULL,
                                     taco_order BIGINT NOT NULL,
+--                                     taco_order_key BIGINT NOT NULL,
                                     created_at TIMESTAMP NOT NULL,
                                     FOREIGN KEY (taco_order) REFERENCES taco_order(id)
             )
@@ -69,6 +71,7 @@
             CREATE TABLE ingredient_ref (
                                     ingredient VARCHAR(4) not null,
                                     taco BIGINT not null,
+--                                     taco_key BIGINT NOT NULL,
                                     FOREIGN KEY (ingredient) REFERENCES ingredient(id),
                                     FOREIGN KEY (taco) REFERENCES taco(id)
             )
