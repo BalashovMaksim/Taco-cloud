@@ -1,11 +1,8 @@
 package com.balashovmaksim.taco.tacocloud.repository;
 
 import com.balashovmaksim.taco.tacocloud.model.Ingredient;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
 
-public interface IngredientRepository {
-    Iterable<Ingredient> findAll();
-    Optional<Ingredient> findById(String id);
-    Ingredient save(Ingredient ingredient);
+public interface IngredientRepository extends JpaRepository<Ingredient,String> {
 }
