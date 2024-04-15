@@ -1,22 +1,23 @@
 package com.balashovmaksim.taco.tacocloud.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 
-@Data
-@Table(name = "ingredient")
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "ingredient")
+@Data
 public class Ingredient {
+
     @Id
     private String id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
     private Type type;
-    public enum Type {
-        WRAP,PROTEIN,VEGGIES,CHEESE,SAUCE
-    }
+
+    public enum Type { WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE }
 }

@@ -9,9 +9,9 @@ import lombok.Data;
 import java.util.Date;
 import java.util.List;
 
-@Data
-@Table(name = "taco")
 @Entity
+@Table(name = "taco")
+@Data
 public class Taco {
 
     @Id
@@ -19,16 +19,20 @@ public class Taco {
     private Long id;
 
     @NotBlank
-    @Size(min=5, message = "Name must be at least 5 characters long")
+    @Size(min = 5, message = "Name must be at least 5 characters long")
     private String name;
 
+    @Column(name = "created_at", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt = new Date();
 
-    @Size(min=1, message = "You must choose at least 1 ingredient")
+    @NotNull
     @ManyToMany
+    @JoinTable(
+            name = "ingredient_ref",
+            joinColumns = @JoinColumn(name = "taco_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+    )
     private List<Ingredient> ingredients;
 
-    public void addIngredient (Ingredient ingredient){
-        this.ingredients.add(ingredient);
-    }
 }

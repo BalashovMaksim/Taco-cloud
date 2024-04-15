@@ -37,10 +37,9 @@
             CREATE TABLE taco (
                                     id SERIAL PRIMARY KEY,
                                     name VARCHAR(50) NOT NULL,
-                                    taco_order BIGINT NOT NULL,
---                                     taco_order_key BIGINT NOT NULL,
+                                    taco_order_id BIGINT,
                                     created_at TIMESTAMP NOT NULL,
-                                    FOREIGN KEY (taco_order) REFERENCES taco_order(id)
+                                    FOREIGN KEY (taco_order_id) REFERENCES taco_order(id)
             )
         </sql>
     </changeSet>
@@ -69,11 +68,11 @@
         </preConditions>
         <sql>
             CREATE TABLE ingredient_ref (
-                                    ingredient VARCHAR(4) not null,
-                                    taco BIGINT not null,
---                                     taco_key BIGINT NOT NULL,
-                                    FOREIGN KEY (ingredient) REFERENCES ingredient(id),
-                                    FOREIGN KEY (taco) REFERENCES taco(id)
+                                        ingredient_id VARCHAR(4) NOT NULL,
+                                        taco_id BIGINT NOT NULL,
+                                        PRIMARY KEY (ingredient_id, taco_id),
+                                        FOREIGN KEY (ingredient_id) REFERENCES ingredient(id),
+                                        FOREIGN KEY (taco_id) REFERENCES taco(id)
             )
         </sql>
     </changeSet>
