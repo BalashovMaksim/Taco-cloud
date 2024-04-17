@@ -60,6 +60,28 @@
         </sql>
     </changeSet>
 
+    <changeSet author="Maksim Balashov" id="20240417-01">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE users (
+                                   id SERIAL PRIMARY KEY,
+                                  username VARCHAR(15) NOT NULL,
+                                  password VARCHAR(130) NOT NULL,
+                                  fullname VARCHAR(17) NOT NULL,
+                                  street VARCHAR(11) NOT NULL,
+                                  city VARCHAR(10) NOT NULL,
+                                  state VARCHAR(2) NOT NULL,
+                                  zip VARCHAR(12) NOT NULL,
+                                  phone_number VARCHAR(9) NOT NULL,
+                                  role VARCHAR(10) NOT NULL
+            )
+        </sql>
+    </changeSet>
+
     <changeSet author="Maksim Balashov" id="20240410-04">
         <preConditions onFail="MARK_RAN">
             <not>
@@ -95,5 +117,6 @@
                                                         ('SRCR', 'Sour Cream', 'SAUCE')
         </sql>
     </changeSet>
+
 
 </databaseChangeLog>
