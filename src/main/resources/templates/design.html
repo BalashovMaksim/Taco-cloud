@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Design your taco!</h1>
+    <div th:insert="~{fragments/menu :: #nav-menu}"></div>
     <img th:src="@{images/TacoShop.jpg}">
 
     <form method="POST" th:object="${taco}">
@@ -49,10 +50,18 @@
         </div>
     <div>
         <h3>Name your taco creation:</h3>
-        <input type="text" th:field="*{name}"/>
-        <br>
+        <input type="text" th:field="*{name}"/><br>
         <button>Submit your Taco</button>
     </div>
+        <div>
+            <span class="validationError"
+                  th:if="${#fields.hasErrors('ingredients')}"
+                  th:errors="*{ingredients}">Choose at least 2 ingredients</span><br>
+            <span class="validationError"
+                  th:if="${#fields.hasErrors('name')}"
+                  th:errors="*{name}">Name must be at least 5 characters long</span>
+            <br>
+        </div>
     </form>
 </body>
 </html>

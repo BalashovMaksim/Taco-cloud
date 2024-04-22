@@ -1,5 +1,7 @@
-package com.balashovmaksim.taco.tacocloud.model;
+package com.balashovmaksim.taco.tacocloud.dto;
 
+import com.balashovmaksim.taco.tacocloud.model.Role;
+import com.balashovmaksim.taco.tacocloud.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegistrationForm {
+public class RegistrationFormDto {
     private String username;
     private String password;
     private String confirmPassword;

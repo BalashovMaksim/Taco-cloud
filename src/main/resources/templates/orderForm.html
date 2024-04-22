@@ -6,6 +6,7 @@
     <title>Taco Shop</title>
 </head>
 <body>
+  <div th:insert="~{fragments/menu :: #nav-menu}"></div>
   <form method="POST" th:action="@{/orders}" th:object="${tacoOrder}">
     <h1>Order your taco creations!</h1>
     <img th:src="@{/images/TacoShop.jpg}">

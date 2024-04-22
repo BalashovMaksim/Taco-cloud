@@ -7,6 +7,8 @@ import com.balashovmaksim.taco.tacocloud.repository.IngredientRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -45,7 +47,7 @@ public class DesignTacoController {
         return "design";
     }
     @PostMapping
-    public String processTaco(@Valid Taco taco, Errors errors,
+    public String processTaco(@Valid @ModelAttribute Taco taco, Errors errors,
                               @ModelAttribute TacoOrder tacoOrder){
         if (errors.hasErrors()){
             return "design";

@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
+import org.springframework.stereotype.Service;
 
 
 import java.io.Serializable;
@@ -27,18 +29,23 @@ public class TacoOrder  implements Serializable {
     private Date placedAt = new Date();
 
     @NotBlank(message = "Delivery name is required")
+    @Size(min=2,message = "Name field must be more than 2 characters long")
     private String deliveryName;
 
     @NotBlank(message = "Street is required")
+    @Size(min=3, message = "Street address field must be more than 3 characters long")
     private String deliveryStreet;
 
     @NotBlank(message = "City is required")
+    @Size(min=2,message = "City field must be more than 2 characters long")
     private String deliveryCity;
 
     @NotBlank(message = "State is required")
+    @Size(min = 1,message = "State field must be more than 1 characters long")
     private String deliveryState;
 
     @NotBlank(message = "Zip code is required")
+    @Size(min=5,message = "Zip field must be more than 5 characters long")
     private String deliveryZip;
 
     @CreditCardNumber(message = "Not a valid credit card number")
@@ -56,7 +63,12 @@ public class TacoOrder  implements Serializable {
     @JoinColumn(name = "taco_order_id")
     private List<Taco> tacos = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public void addTaco(Taco taco){
         this.tacos.add(taco);
     }
+
 }

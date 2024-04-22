@@ -1,27 +1,33 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
-  <title>Taco Shop</title>
+  <title>Login page</title>
 </head>
 <body>
-<h1>Login</h1>
-<img th:src="@{images/TacoShop.jpg}">
 
-  <div th:if="${error}">Unable to login. Check your username and password</div>
+  <h1>Login</h1>
+
+  <div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+  <img th:src="@{images/TacoShop.jpg}">
 
   <p>New here? Click <a th:href="@{/register}">here</a> to register.</p>
 
-  <form method="POST" th:action="@{/login}" id="loginForm">
+  <p th:if="${loginError}" class="error">Wrong user or password</p>
 
-  <label for="username">Username: </label>
-  <input type="text" name="username" id="username"/><br>
-
-  <label for="password">Password: </label>
-  <input type="password" name="password" id="password"/><br>
-
-  <input type="submit" value="Login"/>
+  <form th:action="@{/login}" method="post" id="loginForm">
+    <table border="1">
+      <tr>
+        <td>Username:</td>
+        <td><input type="text" name="username" id="username"></td>
+      </tr>
+      <tr>
+        <td>Password</td>
+        <td> <input type="password" name="password" id="password"/></td>
+      </tr>
+    </table>
+    <button type="submit">Log in</button>
   </form>
 
 </body>

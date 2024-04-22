@@ -5,6 +5,74 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
 
+    <changeSet author="Maksim Balashov" id="20240410-03">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ingredient"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE ingredient (
+                                        id VARCHAR(4) NOT NULL ,
+                                        name VARCHAR(25) NOT NULL,
+                                        type VARCHAR(10) NOT NULL
+            );
+            CREATE UNIQUE INDEX idx_ingredient_id ON ingredient(id)
+        </sql>
+    </changeSet>
+
+
+    <changeSet author="Maksim Balashov" id="20240410-05">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM ingredient</sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO ingredient (id, name, type) VALUES
+                                                        ('FLTO', 'Flour Tortilla', 'WRAP'),
+                                                        ('COTO', 'Corn Tortilla', 'WRAP'),
+                                                        ('GRBF', 'Ground Beef', 'PROTEIN'),
+                                                        ('CARN', 'Carnitas', 'PROTEIN'),
+                                                        ('TMTO', 'Tomatoes', 'VEGGIES'),
+                                                        ('LETC', 'Lettuce', 'VEGGIES'),
+                                                        ('CHED', 'Cheddar', 'CHEESE'),
+                                                        ('JACK', 'Monterey Jack', 'CHEESE'),
+                                                        ('SLSA', 'Salsa', 'SAUCE'),
+                                                        ('SRCR', 'Sour Cream', 'SAUCE')
+        </sql>
+    </changeSet>
+
+    <changeSet author="Maksim Balashov" id="20240417-01">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE users (
+                                   id SERIAL PRIMARY KEY,
+                                   username VARCHAR(15) NOT NULL,
+                                   password VARCHAR(130) NOT NULL,
+                                   fullname VARCHAR(17) NOT NULL,
+                                   street VARCHAR(11) NOT NULL,
+                                   city VARCHAR(10) NOT NULL,
+                                   state VARCHAR(2) NOT NULL,
+                                   zip VARCHAR(12) NOT NULL,
+                                   phone_number VARCHAR(9) NOT NULL,
+                                   role VARCHAR(10) NOT NULL
+            )
+        </sql>
+    </changeSet>
+
+    <changeSet author="Maksim Balashov" id="20240418-01">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM users</sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO users (username,password,fullname,street,city,state,zip,phone_number,role) VALUES
+                ('admin','$2a$12$sqZ7NXDb.AjuuBqbQ4lFUuGlZoaJZ6V.ExClhojRvvI/UHQY1IGjS','admin','none','none','no','none','none','ADMIN')
+        </sql>
+    </changeSet>
+
     <changeSet author="Maksim Balashov" id="20240410-01">
         <preConditions onFail="MARK_RAN">
             <not>
@@ -22,7 +90,10 @@
                                     cc_number VARCHAR(16) NOT NULL,
                                     cc_expiration VARCHAR(5) NOT NULL,
                                     cc_cvv VARCHAR(3) NOT NULL,
-                                    placed_at TIMESTAMP NOT NULL
+                                    user_id BIGINT,
+                                    placed_at TIMESTAMP NOT NULL,
+                                    FOREIGN KEY (user_id) REFERENCES users(id)
+
             )
         </sql>
     </changeSet>
@@ -44,44 +115,6 @@
         </sql>
     </changeSet>
 
-    <changeSet author="Maksim Balashov" id="20240410-03">
-        <preConditions onFail="MARK_RAN">
-            <not>
-                <tableExists tableName="ingredient"/>
-            </not>
-        </preConditions>
-        <sql>
-            CREATE TABLE ingredient (
-                                        id VARCHAR(4) NOT NULL ,
-                                        name VARCHAR(25) NOT NULL,
-                                        type VARCHAR(10) NOT NULL
-            );
-            CREATE UNIQUE INDEX idx_ingredient_id ON ingredient(id)
-        </sql>
-    </changeSet>
-
-    <changeSet author="Maksim Balashov" id="20240417-01">
-        <preConditions onFail="MARK_RAN">
-            <not>
-                <tableExists tableName="users"/>
-            </not>
-        </preConditions>
-        <sql>
-            CREATE TABLE users (
-                                   id SERIAL PRIMARY KEY,
-                                  username VARCHAR(15) NOT NULL,
-                                  password VARCHAR(130) NOT NULL,
-                                  fullname VARCHAR(17) NOT NULL,
-                                  street VARCHAR(11) NOT NULL,
-                                  city VARCHAR(10) NOT NULL,
-                                  state VARCHAR(2) NOT NULL,
-                                  zip VARCHAR(12) NOT NULL,
-                                  phone_number VARCHAR(9) NOT NULL,
-                                  role VARCHAR(10) NOT NULL
-            )
-        </sql>
-    </changeSet>
-
     <changeSet author="Maksim Balashov" id="20240410-04">
         <preConditions onFail="MARK_RAN">
             <not>
@@ -98,25 +131,5 @@
             )
         </sql>
     </changeSet>
-
-    <changeSet author="Maksim Balashov" id="20240410-05">
-        <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM ingredient</sqlCheck>
-        </preConditions>
-        <sql>
-            INSERT INTO ingredient (id, name, type) VALUES
-                                                        ('FLTO', 'Flour Tortilla', 'WRAP'),
-                                                        ('COTO', 'Corn Tortilla', 'WRAP'),
-                                                        ('GRBF', 'Ground Beef', 'PROTEIN'),
-                                                        ('CARN', 'Carnitas', 'PROTEIN'),
-                                                        ('TMTO', 'Tomatoes', 'VEGGIES'),
-                                                        ('LETC', 'Lettuce', 'VEGGIES'),
-                                                        ('CHED', 'Cheddar', 'CHEESE'),
-                                                        ('JACK', 'Monterey Jack', 'CHEESE'),
-                                                        ('SLSA', 'Salsa', 'SAUCE'),
-                                                        ('SRCR', 'Sour Cream', 'SAUCE')
-        </sql>
-    </changeSet>
-
 
 </databaseChangeLog>

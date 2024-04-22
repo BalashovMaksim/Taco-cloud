@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
   <h1>Taco Shop</h1>
-  <a th:href="@{/login}">Login</a>
-  <a th:href="@{/register}">Register</a>
+  <div th:insert="~{fragments/menu :: #nav-menu}"></div>
   <img th:src="@{/images/TacoShop.jpg}"/>
-  <a th:href="@{/design}">Click here for order tacos</a>
 </body>
 </html>

@@ -2,7 +2,6 @@ package com.balashovmaksim.taco.tacocloud.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -26,13 +25,13 @@ public class Taco {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt = new Date();
 
-    @NotNull
     @ManyToMany
     @JoinTable(
             name = "ingredient_ref",
             joinColumns = @JoinColumn(name = "taco_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
+    @Size(min = 2, message = "Choose at least 2 ingredients")
     private List<Ingredient> ingredients;
 
 }
