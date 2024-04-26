@@ -9,3 +9,6 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
+  data:
+    rest:
+      base-path: /data-api
