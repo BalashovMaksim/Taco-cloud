@@ -1,4 +1,4 @@
-package com.balashovmaksim.taco.tacocloud.service;
+package com.balashovmaksim.taco.tacocloud.mapper;
 
 import com.balashovmaksim.taco.tacocloud.model.Ingredient;
 import com.balashovmaksim.taco.tacocloud.repository.IngredientRepository;

@@ -2,21 +2,19 @@ package com.balashovmaksim.taco.tacocloud.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.UUID;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class MainController {
-    @RequestMapping({"","/"})
+    @GetMapping({"","/"})
     public String home(){
         return "home";
     }
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public String login(){
         return "login";
     }
-    @RequestMapping("/login-error")
+    @GetMapping("/login-error")
     public String loginError(Model model){
         model.addAttribute("loginError",true);
         return "login";

@@ -2,11 +2,13 @@ package com.balashovmaksim.taco.tacocloud.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @Entity
 @Table(name = "users")
 @RequiredArgsConstructor
+@SuperBuilder
 public class User{
     private static final long serialVersionUID = 1L;
 

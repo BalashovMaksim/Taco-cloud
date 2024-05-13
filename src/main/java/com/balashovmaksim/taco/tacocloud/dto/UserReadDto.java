@@ -5,12 +5,14 @@ import com.balashovmaksim.taco.tacocloud.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegistrationFormDto {
+@SuperBuilder
+public class UserReadDto {
     private String username;
     private String password;
     private String confirmPassword;
@@ -19,9 +21,9 @@ public class RegistrationFormDto {
     private String city;
     private String state;
     private String zip;
-    private String phone;
+    private String phoneNumber;
 
     public User toUser(PasswordEncoder passwordEncoder) {
-        return new User(username, passwordEncoder.encode(password), fullname, street, city, state, zip, phone, Role.USER);
+        return new User(username, passwordEncoder.encode(password), fullname, street, city, state, zip, phoneNumber, Role.USER);
     }
 }

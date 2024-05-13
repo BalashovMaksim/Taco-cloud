@@ -1,6 +1,8 @@
 package com.balashovmaksim.taco.tacocloud.service;
 
-import com.balashovmaksim.taco.tacocloud.dto.RegistrationFormDto;
+import com.balashovmaksim.taco.tacocloud.dto.UserCreateDto;
+import com.balashovmaksim.taco.tacocloud.dto.UserReadDto;
+import com.balashovmaksim.taco.tacocloud.mapper.UserMapper;
 import com.balashovmaksim.taco.tacocloud.model.User;
 import com.balashovmaksim.taco.tacocloud.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,14 +24,25 @@ import java.util.Objects;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
+
 
     @Transactional
-    public void save(RegistrationFormDto registrationFormDto){
-        if(!Objects.equals(registrationFormDto.getPassword(), registrationFormDto.getConfirmPassword())){
+    public void save(UserCreateDto userCreateDto){
+        if(!Objects.equals(userCreateDto.getPassword(), userCreateDto.getConfirmPassword())){
             throw new RuntimeException("Password is not equals");
         }
-        userRepository.save(registrationFormDto.toUser(passwordEncoder));
+        userRepository.save(userCreateDto.toUser(passwordEncoder));
     }
+    @Transactional
+    public UserReadDto getUserProfile(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        return userMapper.toDto(user);
+    }
+
 
     @Override
     @Transactional

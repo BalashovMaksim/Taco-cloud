@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/api/ingredients", produces = "application/json")
 @RequiredArgsConstructor
-public class IngredientController {
+public class IngredientApiController {
     private final IngredientRepository ingredientRepository;
 
     @GetMapping

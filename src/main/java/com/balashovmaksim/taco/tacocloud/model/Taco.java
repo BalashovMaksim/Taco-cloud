@@ -12,7 +12,6 @@ import java.util.List;
 @Entity
 @Table(name = "taco")
 @Data
-@RestResource(rel = "tacos", path = "tacos")
 public class Taco {
 
     @Id

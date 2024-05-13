@@ -1,22 +1,21 @@
 package com.balashovmaksim.taco.tacocloud.controllers;
 
+import com.balashovmaksim.taco.tacocloud.dto.UserCreateDto;
+import com.balashovmaksim.taco.tacocloud.dto.UserReadDto;
+import com.balashovmaksim.taco.tacocloud.dto.UserUpdateDto;
 import com.balashovmaksim.taco.tacocloud.model.User;
 import com.balashovmaksim.taco.tacocloud.repository.UserRepository;
+import com.balashovmaksim.taco.tacocloud.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.stream.Collectors;
 
 @Controller
@@ -24,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserController {
     private final UserRepository userRepository;
+    private final UserService userService;
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{username}/roles")
     @ResponseBody
@@ -48,5 +48,27 @@ public class UserController {
         }
         return "No authenticated user";
     }
+
+    @GetMapping("/register")
+    public String registerForm(){
+        return "registration";
+    }
+
+    @PostMapping("/register")
+    public String registrationUser(UserCreateDto userCreateDto){
+        userService.save(userCreateDto);
+        return "redirect:/login";
+    }
+
+    @GetMapping("/profile")
+    public String profileUser(Model model, Principal principal){
+        if(principal == null){
+            throw new RuntimeException("You are not authorized");
+        }
+        UserReadDto userReadDto = userService.getUserProfile(principal.getName());
+        model.addAttribute("userReadDto", userReadDto);
+        return "profile";
+    }
+
 }
 

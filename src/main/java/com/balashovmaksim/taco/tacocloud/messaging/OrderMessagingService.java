@@ -1,4 +1,4 @@
-package com.balashovmaksim.taco.tacocloud.service;
+package com.balashovmaksim.taco.tacocloud.messaging;
 
 import com.balashovmaksim.taco.tacocloud.model.TacoOrder;
 

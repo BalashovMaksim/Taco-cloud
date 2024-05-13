@@ -2,7 +2,7 @@ package com.balashovmaksim.taco.tacocloud.controllers;
 
 import com.balashovmaksim.taco.tacocloud.model.TacoOrder;
 import com.balashovmaksim.taco.tacocloud.repository.OrderRepository;
-import com.balashovmaksim.taco.tacocloud.service.OrderMessagingService;
+import com.balashovmaksim.taco.tacocloud.messaging.OrderMessagingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
