@@ -1,5 +1,6 @@
 package com.balashovmaksim.taco.tacocloud.controllers;
 
+import com.balashovmaksim.taco.tacocloud.enums.Type;
 import com.balashovmaksim.taco.tacocloud.model.Ingredient;
 import com.balashovmaksim.taco.tacocloud.model.Taco;
 import com.balashovmaksim.taco.tacocloud.model.TacoOrder;
@@ -12,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import com.balashovmaksim.taco.tacocloud.model.Ingredient.Type;
 
 @Slf4j
 @Controller
@@ -43,8 +43,9 @@ public class TacoController {
     }
 
     private void addIngredientsToModel(Model model) {
-        Type[] types = Ingredient.Type.values();
-        for (Type type : types){
+        Type[] types = Type.values();
+
+        for (Type type : types) {
             Iterable<Ingredient> ingredientsByType = tacoService.filterIngredientsByType(type);
             model.addAttribute(type.toString().toLowerCase(), ingredientsByType);
         }

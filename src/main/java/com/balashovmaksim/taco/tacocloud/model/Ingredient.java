@@ -1,5 +1,6 @@
 package com.balashovmaksim.taco.tacocloud.model;
 
+import com.balashovmaksim.taco.tacocloud.enums.Type;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,4 @@ public class Ingredient {
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private Type type;
-
-    public enum Type { WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE }
 }

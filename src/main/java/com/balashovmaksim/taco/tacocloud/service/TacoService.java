@@ -3,6 +3,7 @@ package com.balashovmaksim.taco.tacocloud.service;
 import com.balashovmaksim.taco.tacocloud.dto.TacoCreateDto;
 import com.balashovmaksim.taco.tacocloud.dto.TacoReadDto;
 import com.balashovmaksim.taco.tacocloud.dto.TacoUpdateDto;
+import com.balashovmaksim.taco.tacocloud.enums.Type;
 import com.balashovmaksim.taco.tacocloud.mapper.TacoMapper;
 import com.balashovmaksim.taco.tacocloud.model.Ingredient;
 import com.balashovmaksim.taco.tacocloud.model.Taco;
@@ -60,7 +61,7 @@ public class TacoService {
         tacoRepository.deleteById(id);
     }
 
-    public Iterable<Ingredient> filterIngredientsByType(Ingredient.Type type) {
+    public Iterable<Ingredient> filterIngredientsByType(Type type) {
         List<Ingredient> ingredients = ingredientRepository.findAll();
         return ingredients.stream()
                 .filter(ingredient -> ingredient.getType().equals(type))

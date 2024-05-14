@@ -1,31 +1,37 @@
 package com.balashovmaksim.taco.tacocloud.controllers;
 
-import com.balashovmaksim.taco.tacocloud.model.Ingredient;
-import com.balashovmaksim.taco.tacocloud.repository.IngredientRepository;
+import com.balashovmaksim.taco.tacocloud.dto.IngredientCreateDto;
+import com.balashovmaksim.taco.tacocloud.dto.IngredientReadDto;
+import com.balashovmaksim.taco.tacocloud.dto.IngredientUpdateDto;
+import com.balashovmaksim.taco.tacocloud.service.IngredientService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/ingredients", produces = "application/json")
 @RequiredArgsConstructor
 public class IngredientApiController {
-    private final IngredientRepository ingredientRepository;
+    private final IngredientService ingredientService;
 
-    @GetMapping
-    public Iterable<Ingredient> getAllIngredients(){
-        return ingredientRepository.findAll();
+    @GetMapping("/all")
+    public List<IngredientReadDto> getAllIngredients(){
+        return ingredientService.getAllIngredients();
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Ingredient saveIngredient(@RequestBody Ingredient ingredient){
-        return ingredientRepository.save(ingredient);
+    @GetMapping("/{id}")
+    public IngredientReadDto getIngredientById(@PathVariable("id") String id){
+        return ingredientService.getIngredientById(id);
+    }
+
+    @PostMapping("/create")
+    public IngredientReadDto createIngredient(@RequestBody IngredientCreateDto ingredientCreateDto){
+        return ingredientService.createIngredient(ingredientCreateDto);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteIngredientById(@PathVariable("id") String id){
-        ingredientRepository.deleteById(id);
+    public void deleteById(@PathVariable("id") String id){
+        ingredientService.deleteById(id);
     }
 }
