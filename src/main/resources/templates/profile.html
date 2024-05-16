@@ -7,47 +7,37 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-<h1>User profile</h1>
+<h1>Profile for <span th:text="${userReadDto.username}"></span></h1>
 <form th:action="@{/users/profile}" th:object="${userReadDto}" method="post">
   <table border="1">
-    <tr>
-      <td>Name</td>
-      <td><input type="text" th:field="*{username}"></td>
-    </tr>
-    <tr>
-      <td>Password</td>
-      <td><input type="password" th:field="*{password}"></td>
-    </tr>
-    <tr>
-      <td>Matching password</td>
-      <td><input type="password" th:field="*{confirmPassword}"></td>
-    </tr>
-    <tr>
-      <td>Fullname</td>
-      <td><input type="text" th:field="*{fullname}"></td>
-    </tr>
-    <tr>
-      <td>Street</td>
-      <td><input type="text" th:field="*{street}"></td>
-    </tr>
-    <tr>
-      <td>City</td>
-      <td><input type="text" th:field="*{city}"></td>
-    </tr>
-    <tr>
-      <td>State</td>
-      <td><input type="text" th:field="*{state}"></td>
-    </tr>
-    <tr>
-      <td>Zip</td>
-      <td><input type="text" th:field="*{zip}"></td>
-    </tr>
-    <tr>
-      <td>Phone Number</td>
-      <td><input type="text" th:field="*{phoneNumber}"></td>
-    </tr>
+    <tr><td>Password</td><td><input type="password" th:field="*{password}"></td></tr>
+    <tr><td>Matching password</td><td><input type="password" th:field="*{confirmPassword}"></td></tr>
+    <tr><td>Fullname</td><td><input type="text" th:field="*{fullname}"></td></tr>
+    <tr><td>Street</td><td><input type="text" th:field="*{street}"></td></tr>
+    <tr><td>City</td><td><input type="text" th:field="*{city}"></td></tr>
+    <tr><td>State</td><td><input type="text" th:field="*{state}"></td></tr>
+    <tr><td>Zip</td><td><input type="text" th:field="*{zip}"></td></tr>
+    <tr><td>Phone Number</td><td><input type="text" th:field="*{phoneNumber}"></td></tr>
   </table>
   <button type="submit">Save</button>
 </form>
+
+<h2>Orders</h2>
+<table>
+  <thead>
+  <tr>
+    <th>Order ID</th>
+    <th>Placed At</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="order : ${userReadDto.
+orders}">
+    <td><a th:href="@{/orders/{id}(id=${order.id})}" th:text="${order.id}"></a></td>
+    <td th:text="${#dates.format(order.placedAt, 'yyyy-MM-dd HH:mm')}"></td>
+  </tr>
+  </tbody>
+</table>
+
 </body>
 </html>

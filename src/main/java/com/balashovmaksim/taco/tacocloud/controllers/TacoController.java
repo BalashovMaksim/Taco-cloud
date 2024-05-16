@@ -20,34 +20,42 @@ import org.springframework.web.bind.annotation.*;
 @SessionAttributes("tacoOrder")
 @RequiredArgsConstructor
 public class TacoController {
+
     private final TacoService tacoService;
 
+    @ModelAttribute
+    public void addIngredientsToModel(Model model) {
+        Type[] types = Type.values();
+        for (Type type : types){
+            Iterable<Ingredient> ingredientsByType = tacoService.filterIngredientsByType(type);
+            model.addAttribute(type.toString().toLowerCase(), ingredientsByType);
+        }
+    }
+
+    @ModelAttribute(name = "tacoOrder")
+    public TacoOrder order(){
+        return new TacoOrder();
+    }
+
+    @ModelAttribute(name = "taco")
+    public Taco taco(){
+        return new Taco();
+    }
+
     @GetMapping
-    public String showDesignForm(Model model) {
-        addIngredientsToModel(model);
-        model.addAttribute("tacoOrder", new TacoOrder());
-        model.addAttribute("taco", new Taco());
+    public String showForm() {
         return "design";
     }
 
     @PostMapping
-    public String processTaco(@Valid Taco taco, Errors errors, @ModelAttribute TacoOrder tacoOrder, Model model) {
-        if (errors.hasErrors()) {
-            addIngredientsToModel(model);
+    public String createTaco(@Valid @ModelAttribute Taco taco, Errors errors,
+                             @ModelAttribute TacoOrder tacoOrder) {
+        if (errors.hasErrors()){
             return "design";
         }
-
         tacoOrder.addTaco(taco);
         log.info("Processing taco: {}", taco);
+
         return "redirect:/orders/current";
-    }
-
-    private void addIngredientsToModel(Model model) {
-        Type[] types = Type.values();
-
-        for (Type type : types) {
-            Iterable<Ingredient> ingredientsByType = tacoService.filterIngredientsByType(type);
-            model.addAttribute(type.toString().toLowerCase(), ingredientsByType);
-        }
     }
 }

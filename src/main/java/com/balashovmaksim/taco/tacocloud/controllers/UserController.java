@@ -1,5 +1,6 @@
 package com.balashovmaksim.taco.tacocloud.controllers;
 
+import com.balashovmaksim.taco.tacocloud.dto.OrderSummaryDto;
 import com.balashovmaksim.taco.tacocloud.dto.UserCreateDto;
 import com.balashovmaksim.taco.tacocloud.dto.UserReadDto;
 import com.balashovmaksim.taco.tacocloud.dto.UserUpdateDto;
@@ -10,12 +11,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -61,14 +66,20 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String profileUser(Model model, Principal principal){
-        if(principal == null){
+    public String profileUser(Model model, @AuthenticationPrincipal UserDetails principal){
+        if (principal == null) {
             throw new RuntimeException("You are not authorized");
         }
-        UserReadDto userReadDto = userService.getUserProfile(principal.getName());
+        UserReadDto userReadDto = userService.getUserProfile(principal.getUsername());
         model.addAttribute("userReadDto", userReadDto);
         return "profile";
     }
 
+    @PostMapping("/profile")
+    public String updateProfile(@ModelAttribute("userReadDto") UserReadDto userReadDto) {
+        userService.updateProfile(userReadDto);
+        return "redirect:/users/profile?success";
+    }
 }
+
 

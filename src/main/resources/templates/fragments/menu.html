@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>Menu</title>
@@ -12,7 +13,7 @@
         <tr>
           <td>Menu -></td>
           <td><a th:href="@{/}">Home</a></td>
-          <td><a th:href="@{/design}">Order tacos</a></td>
+          <td><a th:href="@{/design}">Create your custom taco</a></td>
         </tr>
       </table>
     </td>
@@ -20,22 +21,17 @@
     <td align="right">
       <div sec:authorize="isAuthenticated()">
         <div>
-          Hello, <a th:href="@{/users/profile}"><span sec:authentication="principal.username">Bill</span></a>
-        </div>
-
-        <div>
+          Hello, <a th:href="@{/users/profile}"><span sec:authentication="name">Username</span></a>
           <a th:href="@{/logout}">Logout</a>
         </div>
       </div>
 
-
-      <div sec:authorize="!isAuthenticated()">
+      <div sec:authorize="isAnonymous()">
         <div>
           Hello, Unknown. Please <a th:href="@{/login}">Login</a>
         </div>
       </div>
     </td>
-
   </tr>
 </table>
 </body>

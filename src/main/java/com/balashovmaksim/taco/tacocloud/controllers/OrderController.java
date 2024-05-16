@@ -1,24 +1,16 @@
 package com.balashovmaksim.taco.tacocloud.controllers;
 
+import com.balashovmaksim.taco.tacocloud.dto.OrderDetailsDto;
 import com.balashovmaksim.taco.tacocloud.dto.UserReadDto;
 import com.balashovmaksim.taco.tacocloud.model.TacoOrder;
-import com.balashovmaksim.taco.tacocloud.model.User;
 import com.balashovmaksim.taco.tacocloud.repository.OrderRepository;
-import com.balashovmaksim.taco.tacocloud.repository.UserRepository;
 import com.balashovmaksim.taco.tacocloud.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
 import java.security.Principal;
@@ -29,6 +21,7 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final OrderRepository orderRepository;
     @GetMapping("/current")
     public String orderForm(Model model, Principal principal) {
         if (principal == null) {
@@ -48,5 +41,12 @@ public class OrderController {
         }
         sessionStatus.setComplete();
         return "redirect:/";
+    }
+
+    @GetMapping("/{id}")
+    public String getOrderDetails(@PathVariable Long id, Model model) {
+        OrderDetailsDto orderDetailsDto = orderService.getOrderDetails(id);
+        model.addAttribute("orderDetailsDto", orderDetailsDto);
+        return "orderDetails";
     }
 }

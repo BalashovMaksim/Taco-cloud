@@ -1,16 +1,19 @@
 package com.balashovmaksim.taco.tacocloud.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name = "users")
 @RequiredArgsConstructor
 @SuperBuilder
-public class User{
-    private static final long serialVersionUID = 1L;
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +27,7 @@ public class User{
     private String state;
     private String zip;
     private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
