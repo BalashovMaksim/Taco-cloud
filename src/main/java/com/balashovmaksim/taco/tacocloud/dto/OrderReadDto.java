@@ -17,4 +17,5 @@ public class OrderReadDto {
     private String deliveryZip;
     private List<Taco> tacos;
     private User user;
+    private Double totalPrice;
 }

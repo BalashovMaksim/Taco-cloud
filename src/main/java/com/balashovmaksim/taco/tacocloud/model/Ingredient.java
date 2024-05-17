@@ -19,4 +19,7 @@ public class Ingredient {
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private Type type;
+
+    @Column(name = "price", nullable = false)
+    private Double price;
 }

@@ -9,6 +9,7 @@
 <h1>Order Details</h1>
 <p>Order ID: <span th:text="${orderDetailsDto.id}"></span></p>
 <p>Placed At: <span th:text="${#dates.format(orderDetailsDto.placedAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+<p>Total Price: $<span th:text="${orderDetailsDto.totalPrice}"></span></p> <!-- New line for total price -->
 <h2>Tacos in this Order</h2>
 <table border="1">
   <thead>

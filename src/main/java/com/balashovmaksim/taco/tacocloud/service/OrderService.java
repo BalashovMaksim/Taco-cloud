@@ -77,10 +77,16 @@ public class OrderService {
                         .build())
                 .collect(Collectors.toList());
 
+        Double totalPrice = order.getTacos().stream()
+                .flatMap(taco -> taco.getIngredients().stream())
+                .mapToDouble(Ingredient::getPrice)
+                .sum();
+
         return OrderDetailsDto.builder()
                 .id(order.getId())
                 .placedAt(order.getPlacedAt())
                 .tacos(tacos)
+                .totalPrice(totalPrice)
                 .build();
     }
 

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Taco Shop</title>
+  <title>Order Your Taco Creations!</title>
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
@@ -47,27 +46,22 @@
   <h3>Here's how I'll pay...</h3>
   <label>Credit Card #: </label>
   <input type="text" th:field="*{ccNumber}"/>
-  <span class="validationError"
-        th:if="${#fields.hasErrors('ccNumber')}"
-        th:errors="*{ccNumber}">CC Number Error</span>
+  <span class="validationError" th:if="${#fields.hasErrors('ccNumber')}" th:errors="*{ccNumber}">CC Number Error</span>
   <br>
 
   <label>Expiration: </label>
   <input type="text" th:field="*{ccExpiration}"/>
-  <span class="validationError"
-        th:if="${#fields.hasErrors('ccExpiration')}"
-        th:errors="*{ccExpiration}">CC Expiration Error</span>
+  <span class="validationError" th:if="${#fields.hasErrors('ccExpiration')}" th:errors="*{ccExpiration}">CC Expiration Error</span>
   <br>
 
   <label>CVV: </label>
   <input type="text" th:field="*{ccCVV}"/>
-  <span class="validationError"
-        th:if="${#fields.hasErrors('ccCVV')}"
-        th:errors="*{ccCVV}">CC CVV Error</span>
+  <span class="validationError" th:if="${#fields.hasErrors('ccCVV')}" th:errors="*{ccCVV}">CC CVV Error</span>
   <br>
 
-  <input type="submit" value="Create Order">
+  <h3>Total Price: $<span th:text="${tacoOrder.totalPrice}"></span></h3>
 
-  </form>
+  <input type="submit" value="Create Order">
+</form>
 </body>
 </html>

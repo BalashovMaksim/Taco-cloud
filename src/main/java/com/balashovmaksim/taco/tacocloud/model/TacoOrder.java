@@ -67,7 +67,18 @@ public class TacoOrder implements Serializable {
     @JsonBackReference
     private User user;
 
+    @Column(name = "total_price", nullable = false)
+    private Double totalPrice;
+
     public void addTaco(Taco taco) {
         this.tacos.add(taco);
+        updateTotalPrice(); // Обновление общей суммы при добавлении тако
+    }
+
+    // Метод обновления общей суммы
+    public void updateTotalPrice() {
+        this.totalPrice = tacos.stream()
+                .mapToDouble(Taco::calculatePrice)
+                .sum();
     }
 }

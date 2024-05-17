@@ -16,4 +16,5 @@ public class OrderDetailsDto {
     private Long id;
     private Date placedAt;
     private List<TacoReadDto> tacos;
+    private Double totalPrice;
 }

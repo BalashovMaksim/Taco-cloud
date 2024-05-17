@@ -35,4 +35,10 @@ public class Taco {
     @Size(min = 2, message = "Choose at least 2 ingredients")
     private List<Ingredient> ingredients;
 
+    public Double calculatePrice() {
+        return ingredients.stream()
+                .mapToDouble(Ingredient::getPrice)
+                .sum();
+    }
+
 }
