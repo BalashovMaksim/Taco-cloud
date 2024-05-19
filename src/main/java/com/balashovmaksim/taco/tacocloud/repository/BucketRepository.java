@@ -1,11 +1,11 @@
 package com.balashovmaksim.taco.tacocloud.repository;
 
+import com.balashovmaksim.taco.tacocloud.model.Bucket;
 import com.balashovmaksim.taco.tacocloud.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User,Long> {
-    Optional<User> findByUsername(String username);
-    User findFirstByUsername(String name);
+public interface BucketRepository extends JpaRepository<Bucket, Long> {
+    Optional<Bucket> findByUser(User user);
 }

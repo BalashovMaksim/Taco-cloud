@@ -23,7 +23,4 @@ public class UserUpdateDto {
     private String zip;
     private String phoneNumber;
 
-    public User toUser(PasswordEncoder passwordEncoder) {
-        return new User(username, passwordEncoder.encode(password), fullname, street, city, state, zip, phoneNumber, Role.USER);
-    }
 }

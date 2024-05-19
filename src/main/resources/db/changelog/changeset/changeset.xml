@@ -116,6 +116,38 @@
         </sql>
     </changeSet>
 
+    <changeSet author="Maksim Balashov" id="20240518-01">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="buckets"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE buckets (
+                                     id SERIAL PRIMARY KEY,
+                                     user_id BIGINT,
+                                     FOREIGN KEY (user_id) REFERENCES users(id)
+            )
+        </sql>
+    </changeSet>
+
+    <changeSet author="Maksim Balashov" id="20240518-02">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="buckets_tacos"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE buckets_tacos (
+                                           bucket_id BIGINT,
+                                           taco_id BIGINT,
+                                           PRIMARY KEY (bucket_id, taco_id),
+                                           FOREIGN KEY (bucket_id) REFERENCES buckets(id),
+                                           FOREIGN KEY (taco_id) REFERENCES taco(id)
+            )
+        </sql>
+    </changeSet>
+
     <changeSet author="Maksim Balashov" id="20240410-04">
         <preConditions onFail="MARK_RAN">
             <not>

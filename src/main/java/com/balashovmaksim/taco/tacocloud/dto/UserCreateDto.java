@@ -1,5 +1,6 @@
 package com.balashovmaksim.taco.tacocloud.dto;
 
+import com.balashovmaksim.taco.tacocloud.model.Bucket;
 import com.balashovmaksim.taco.tacocloud.model.Role;
 import com.balashovmaksim.taco.tacocloud.model.User;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,6 @@ public class UserCreateDto {
     private String phoneNumber;
 
     public User toUser(PasswordEncoder passwordEncoder) {
-        return new User(username, passwordEncoder.encode(password), fullname, street, city, state, zip, phoneNumber, Role.USER);
+        return new User(username, passwordEncoder.encode(password), fullname, street, city, state, zip, phoneNumber, Role.USER, new Bucket());
     }
 }

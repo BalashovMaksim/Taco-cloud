@@ -57,7 +57,7 @@ public class OrderService {
             return false;
         }
 
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
         order.setUser(user);
         orderRepository.save(order);
         return true;
@@ -91,7 +91,7 @@ public class OrderService {
     }
 
     public UserReadDto getUserDetails(String username) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));;
         return UserReadDto.builder()
                 .fullname(user.getFullname())
                 .street(user.getStreet())

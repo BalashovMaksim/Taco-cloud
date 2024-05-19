@@ -1,12 +1,8 @@
 package com.balashovmaksim.taco.tacocloud.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Entity
@@ -14,7 +10,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @SuperBuilder
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +26,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(String username, String encode, String fullname, String street, String city, String state, String zip, String phone, Role role) {
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Bucket bucket;
+
+    public User(String username, String encode, String fullname, String street, String city, String state, String zip, String phone, Role role, Bucket bucket) {
         this.username = username;
         this.password = encode;
         this.fullname = fullname;
@@ -41,5 +39,6 @@ public class User {
         this.zip = zip;
         this.phoneNumber = phone;
         this.role = role;
+        this.bucket = bucket;
     }
 }

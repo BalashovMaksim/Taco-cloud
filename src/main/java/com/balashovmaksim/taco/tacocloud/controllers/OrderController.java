@@ -3,7 +3,6 @@ package com.balashovmaksim.taco.tacocloud.controllers;
 import com.balashovmaksim.taco.tacocloud.dto.OrderDetailsDto;
 import com.balashovmaksim.taco.tacocloud.dto.UserReadDto;
 import com.balashovmaksim.taco.tacocloud.model.TacoOrder;
-import com.balashovmaksim.taco.tacocloud.repository.OrderRepository;
 import com.balashovmaksim.taco.tacocloud.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,34 +20,32 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
-    private final OrderRepository orderRepository;
+
     @GetMapping("/current")
-    public String orderForm(Model model, Principal principal) {
+    public String orderForm(@ModelAttribute TacoOrder tacoOrder, Model model, Principal principal) {
         if (principal == null) {
             return "orderForm";
         }
+
         UserReadDto userReadDto = orderService.getUserDetails(principal.getName());
         model.addAttribute("userReadDto", userReadDto);
-
-        // Adding tacoOrder to the model if not already present
-        if (!model.containsAttribute("tacoOrder")) {
-            model.addAttribute("tacoOrder", new TacoOrder());
-        }
 
         return "orderForm";
     }
 
     @PostMapping
-    public String processOrder(@Valid TacoOrder tacoOrder, Errors errors,
+    public String processOrder(@Valid @ModelAttribute TacoOrder tacoOrder, Errors errors,
                                SessionStatus sessionStatus, Principal principal) {
         if (errors.hasErrors()) {
             return "orderForm";
         }
+
         tacoOrder.updateTotalPrice();
 
         if (!orderService.processOrder(tacoOrder, principal.getName(), errors)) {
             return "orderForm";
         }
+
         sessionStatus.setComplete();
         return "redirect:/";
     }
