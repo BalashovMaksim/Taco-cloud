@@ -36,7 +36,7 @@ public class OrderController {
 
     @PostMapping
     public String processOrder(@Valid @ModelAttribute TacoOrder tacoOrder, Errors errors,
-                               SessionStatus sessionStatus, Principal principal) {
+                               Model model, SessionStatus sessionStatus, Principal principal) {
         if (errors.hasErrors()) {
             return "orderForm";
         }
@@ -44,7 +44,9 @@ public class OrderController {
         if (!orderService.processOrder(tacoOrder, principal.getName(), errors)) {
             return "orderForm";
         }
+        // Завершаем сессию и очищаем атрибуты
         sessionStatus.setComplete();
+
         return "redirect:/";
     }
 

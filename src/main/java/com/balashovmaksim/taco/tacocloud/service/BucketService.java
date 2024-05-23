@@ -29,11 +29,13 @@ public class BucketService {
     }
 
     @Transactional
-    public void clearBucket(Bucket bucket, String username) {
+    public void clearBucket(Bucket bucket) {
         bucket.getTacos().clear();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-        bucket.setUser(user);
+        bucketRepository.save(bucket);
+    }
+
+    @Transactional
+    public void updateBucket(Bucket bucket) {
         bucketRepository.save(bucket);
     }
 }

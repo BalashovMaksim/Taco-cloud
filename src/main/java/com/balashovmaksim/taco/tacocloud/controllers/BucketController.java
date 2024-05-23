@@ -13,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.security.Principal;
+import java.util.ArrayList;
 
 @Slf4j
 @Controller
@@ -28,11 +30,6 @@ public class BucketController {
     @ModelAttribute("bucket")
     public Bucket bucket() {
         return new Bucket();
-    }
-
-    @ModelAttribute("tacoOrder")
-    public TacoOrder tacoOrder() {
-        return new TacoOrder();
     }
 
     @GetMapping
@@ -53,16 +50,22 @@ public class BucketController {
 
     @PostMapping("/checkout")
     public String checkout(@ModelAttribute("bucket") Bucket bucket,
-                           @ModelAttribute("tacoOrder") TacoOrder tacoOrder,
-                           Model model) {
+                           Model model, Principal principal) {
         if (bucket.getTacos() != null && !bucket.getTacos().isEmpty()) {
-            tacoOrder.setTacos(bucket.getTacos());
+            TacoOrder tacoOrder = new TacoOrder();
+
+            tacoOrder.setTacos(new ArrayList<>(bucket.getTacos()));
             tacoOrder.updateTotalPrice();
+
+            // Добавляем заказ в модель для новой сессии
+            model.addAttribute("tacoOrder", tacoOrder);
+
+            // Очищаем корзину и сохраняем изменения
+            bucketService.clearBucket(bucket);
+            model.addAttribute("bucket", bucket);
         } else {
             log.error("Bucket is empty");
         }
-        model.addAttribute("tacoOrder", tacoOrder);
         return "redirect:/orders/current";
     }
 }
-
