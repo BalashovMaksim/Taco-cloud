@@ -38,6 +38,11 @@ public class TacoController {
         return new TacoOrder();
     }
 
+    @ModelAttribute(name = "bucket")
+    public Bucket bucket() {
+        return new Bucket();
+    }
+
     @ModelAttribute(name = "taco")
     public Taco taco() {
         return new Taco();
@@ -48,6 +53,7 @@ public class TacoController {
         addIngredientsToModel(model);
         return "design";
     }
+
     @PostMapping
     public String createTaco(@Valid @ModelAttribute Taco taco, Errors errors,
                              @ModelAttribute Bucket bucket, Model model) {
@@ -57,8 +63,6 @@ public class TacoController {
         }
 
         bucket.addTaco(taco);
-        log.info("Processing taco: {}", taco);
-
         model.addAttribute("bucket", bucket);
         return "redirect:/bucket";
     }

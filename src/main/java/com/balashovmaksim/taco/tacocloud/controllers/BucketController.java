@@ -21,6 +21,7 @@ import java.security.Principal;
 @SessionAttributes({"bucket", "tacoOrder"})
 @RequiredArgsConstructor
 public class BucketController {
+
     private final UserRepository userRepository;
     private final BucketService bucketService;
 
@@ -36,20 +37,32 @@ public class BucketController {
 
     @GetMapping
     public String showBucket(@ModelAttribute("bucket") Bucket bucket, Model model, Principal principal) {
-        if (principal == null || principal.getName() == null) {
-            model.addAttribute("bucket", bucket);
+        User user = userRepository.findByUsername(principal.getName())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        Bucket userBucket = bucketService.findByUser(user);
+        if (userBucket == null) {
+            userBucket = bucketService.createBucketForUser(user);
         } else {
-            User user = userRepository.findByUsername(principal.getName())
-                    .orElseThrow(() -> new EntityNotFoundException("User not found"));
-
-            Bucket userBucket = bucketService.findByUser(user);
-            if (userBucket == null) {
-                userBucket = bucketService.createBucketForUser(user);
-            }
-            userBucket.updateTotalPrice();
-            model.addAttribute("bucket", userBucket);
+            userBucket = bucket;
         }
-
+        userBucket.updateTotalPrice();
+        model.addAttribute("bucket", userBucket);
         return "bucket";
     }
+
+    @PostMapping("/checkout")
+    public String checkout(@ModelAttribute("bucket") Bucket bucket,
+                           @ModelAttribute("tacoOrder") TacoOrder tacoOrder,
+                           Model model) {
+        if (bucket.getTacos() != null && !bucket.getTacos().isEmpty()) {
+            tacoOrder.setTacos(bucket.getTacos());
+            tacoOrder.updateTotalPrice();
+        } else {
+            log.error("Bucket is empty");
+        }
+        model.addAttribute("tacoOrder", tacoOrder);
+        return "redirect:/orders/current";
+    }
 }
+

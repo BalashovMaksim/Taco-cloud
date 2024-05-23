@@ -20,19 +20,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    @GetMapping("/info")
-    @ResponseBody
-    public String userInfo(Authentication authentication) {
-        if (authentication != null) {
-            String username = authentication.getName();
-            String roles = authentication.getAuthorities().stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .collect(Collectors.joining(", "));
-            String info = "Username: " + username + ", Roles: " + roles;
-            return info;
-        }
-        return "No authenticated user";
-    }
 
     @GetMapping("/register")
     public String registerForm(){

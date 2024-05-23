@@ -29,6 +29,7 @@ public class OrderController {
 
         UserReadDto userReadDto = orderService.getUserDetails(principal.getName());
         model.addAttribute("userReadDto", userReadDto);
+        model.addAttribute("tacoOrder", tacoOrder);
 
         return "orderForm";
     }
@@ -39,13 +40,10 @@ public class OrderController {
         if (errors.hasErrors()) {
             return "orderForm";
         }
-
         tacoOrder.updateTotalPrice();
-
         if (!orderService.processOrder(tacoOrder, principal.getName(), errors)) {
             return "orderForm";
         }
-
         sessionStatus.setComplete();
         return "redirect:/";
     }
