@@ -1,13 +1,9 @@
 package com.balashovmaksim.taco.tacocloud.dto;
 
-import com.balashovmaksim.taco.tacocloud.model.Bucket;
-import com.balashovmaksim.taco.tacocloud.model.Role;
-import com.balashovmaksim.taco.tacocloud.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
 @AllArgsConstructor
@@ -24,7 +20,4 @@ public class UserCreateDto {
     private String zip;
     private String phoneNumber;
 
-    public User toUser(PasswordEncoder passwordEncoder) {
-        return new User(username, passwordEncoder.encode(password), fullname, street, city, state, zip, phoneNumber, Role.USER, new Bucket());
-    }
 }

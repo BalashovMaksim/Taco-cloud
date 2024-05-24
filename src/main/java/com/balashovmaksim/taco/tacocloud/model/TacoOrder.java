@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
-import org.springframework.stereotype.Service;
 
 
 import java.io.Serializable;
@@ -70,8 +69,6 @@ public class TacoOrder implements Serializable {
     @Column(name = "total_price", nullable = false)
     private Double totalPrice;
 
-
-    // Метод обновления общей суммы
     public void updateTotalPrice() {
         this.totalPrice = tacos.stream()
                 .mapToDouble(Taco::calculatePrice)

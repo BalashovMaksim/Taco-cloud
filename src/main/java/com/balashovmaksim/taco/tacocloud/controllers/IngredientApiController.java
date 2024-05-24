@@ -2,7 +2,6 @@ package com.balashovmaksim.taco.tacocloud.controllers;
 
 import com.balashovmaksim.taco.tacocloud.dto.IngredientCreateDto;
 import com.balashovmaksim.taco.tacocloud.dto.IngredientReadDto;
-import com.balashovmaksim.taco.tacocloud.dto.IngredientUpdateDto;
 import com.balashovmaksim.taco.tacocloud.service.IngredientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

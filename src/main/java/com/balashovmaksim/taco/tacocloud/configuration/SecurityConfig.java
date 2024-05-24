@@ -1,6 +1,6 @@
 package com.balashovmaksim.taco.tacocloud.configuration;
 
-import com.balashovmaksim.taco.tacocloud.model.Role;
+import com.balashovmaksim.taco.tacocloud.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

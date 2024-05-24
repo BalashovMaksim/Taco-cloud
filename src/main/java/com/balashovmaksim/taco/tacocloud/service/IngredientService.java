@@ -2,7 +2,6 @@ package com.balashovmaksim.taco.tacocloud.service;
 
 import com.balashovmaksim.taco.tacocloud.dto.IngredientCreateDto;
 import com.balashovmaksim.taco.tacocloud.dto.IngredientReadDto;
-import com.balashovmaksim.taco.tacocloud.dto.IngredientUpdateDto;
 import com.balashovmaksim.taco.tacocloud.mapper.IngredientMapper;
 import com.balashovmaksim.taco.tacocloud.model.Ingredient;
 import com.balashovmaksim.taco.tacocloud.repository.IngredientRepository;

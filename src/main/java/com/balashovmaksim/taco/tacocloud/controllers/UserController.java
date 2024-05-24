@@ -4,16 +4,12 @@ import com.balashovmaksim.taco.tacocloud.dto.UserCreateDto;
 import com.balashovmaksim.taco.tacocloud.dto.UserReadDto;
 import com.balashovmaksim.taco.tacocloud.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/users")

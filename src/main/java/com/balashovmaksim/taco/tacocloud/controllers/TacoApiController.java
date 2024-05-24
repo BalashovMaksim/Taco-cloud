@@ -3,19 +3,12 @@ package com.balashovmaksim.taco.tacocloud.controllers;
 import com.balashovmaksim.taco.tacocloud.dto.TacoCreateDto;
 import com.balashovmaksim.taco.tacocloud.dto.TacoReadDto;
 import com.balashovmaksim.taco.tacocloud.dto.TacoUpdateDto;
-import com.balashovmaksim.taco.tacocloud.model.Taco;
-import com.balashovmaksim.taco.tacocloud.repository.TacoRepository;
 import com.balashovmaksim.taco.tacocloud.service.TacoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping(path = "/api/tacos",
