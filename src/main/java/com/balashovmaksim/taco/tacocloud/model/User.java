@@ -1,6 +1,7 @@
 package com.balashovmaksim.taco.tacocloud.model;
 
 import com.balashovmaksim.taco.tacocloud.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -28,5 +29,6 @@ public class User {
     private Role role;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Bucket bucket;
 }

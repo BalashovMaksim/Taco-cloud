@@ -4,6 +4,8 @@ import com.balashovmaksim.taco.tacocloud.dto.IngredientCreateDto;
 import com.balashovmaksim.taco.tacocloud.dto.IngredientReadDto;
 import com.balashovmaksim.taco.tacocloud.service.IngredientService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,24 +15,29 @@ import java.util.List;
 @RequiredArgsConstructor
 public class IngredientApiController {
     private final IngredientService ingredientService;
+    private static final Logger logger = LoggerFactory.getLogger(IngredientApiController.class);
 
     @GetMapping("/all")
     public List<IngredientReadDto> getAllIngredients(){
+        logger.info("Getting all ingredients");
         return ingredientService.getAllIngredients();
     }
 
     @GetMapping("/{id}")
     public IngredientReadDto getIngredientById(@PathVariable("id") String id){
+        logger.info("Getting ingredient by id: {}", id);
         return ingredientService.getIngredientById(id);
     }
 
     @PostMapping("/create")
     public IngredientReadDto createIngredient(@RequestBody IngredientCreateDto ingredientCreateDto){
+        logger.info("Creating ingredient: {}", ingredientCreateDto);
         return ingredientService.createIngredient(ingredientCreateDto);
     }
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable("id") String id){
+        logger.info("Deleting ingredient by id: {}", id);
         ingredientService.deleteById(id);
     }
 }
