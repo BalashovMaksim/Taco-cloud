@@ -2,6 +2,7 @@ package com.balashovmaksim.taco.tacocloud.service;
 
 import com.balashovmaksim.taco.tacocloud.dto.*;
 import com.balashovmaksim.taco.tacocloud.mapper.OrderMapper;
+import com.balashovmaksim.taco.tacocloud.mapper.UserMapper;
 import com.balashovmaksim.taco.tacocloud.model.Ingredient;
 import com.balashovmaksim.taco.tacocloud.model.TacoOrder;
 import com.balashovmaksim.taco.tacocloud.model.User;
@@ -23,6 +24,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final OrderMapper orderMapper;
+    private final UserMapper userMapper;
 
     @Transactional
     public List<OrderReadDto> getAllOrders() {
@@ -91,16 +93,8 @@ public class OrderService {
     }
 
     public UserReadDto getUserDetails(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));;
-        return UserReadDto.builder()
-                .fullname(user.getFullname())
-                .street(user.getStreet())
-                .city(user.getCity())
-                .state(user.getState())
-                .zip(user.getZip())
-                .phoneNumber(user.getPhoneNumber())
-                .build();
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        return userMapper.toUserReadDto(user);
     }
-
 
 }

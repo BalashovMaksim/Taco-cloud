@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    @Mapping(target = "password", ignore = true) // Пароль шифруется отдельно
+    @Mapping(target = "password", ignore = true)
     User toUser(UserCreateDto userCreateDto);
 
     UserReadDto toUserReadDto(User user);
