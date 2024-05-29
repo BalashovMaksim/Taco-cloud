@@ -3,7 +3,6 @@ package com.balashovmaksim.taco.tacocloud.service;
 import com.balashovmaksim.taco.tacocloud.dto.*;
 import com.balashovmaksim.taco.tacocloud.mapper.OrderMapper;
 import com.balashovmaksim.taco.tacocloud.mapper.UserMapper;
-import com.balashovmaksim.taco.tacocloud.model.Ingredient;
 import com.balashovmaksim.taco.tacocloud.model.TacoOrder;
 import com.balashovmaksim.taco.tacocloud.model.User;
 import com.balashovmaksim.taco.tacocloud.repository.OrderRepository;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,26 +68,7 @@ public class OrderService {
         TacoOrder order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        List<TacoReadDto> tacos = order.getTacos().stream()
-                .map(taco -> TacoReadDto.builder()
-                        .name(taco.getName())
-                        .ingredientIds(Collections.singletonList(taco.getIngredients().stream()
-                                .map(Ingredient::getName)
-                                .collect(Collectors.joining(", "))))
-                        .build())
-                .collect(Collectors.toList());
-
-        Double totalPrice = order.getTacos().stream()
-                .flatMap(taco -> taco.getIngredients().stream())
-                .mapToDouble(Ingredient::getPrice)
-                .sum();
-
-        return OrderDetailsDto.builder()
-                .id(order.getId())
-                .placedAt(order.getPlacedAt())
-                .tacos(tacos)
-                .totalPrice(totalPrice)
-                .build();
+        return orderMapper.toOrderDetailsDto(order);
     }
 
     public UserReadDto getUserDetails(String username) {
