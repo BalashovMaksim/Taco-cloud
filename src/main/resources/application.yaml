@@ -2,9 +2,9 @@ spring:
   liquibase:
     enabled: true
   datasource:
-    url: jdbc:postgresql://postgres:5432/${POSTGRES_URL}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/TacoDB
+    username: postgres
+    password: Hanter678pqo
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -14,4 +14,4 @@ spring:
       base-path: /data-api
   kafka:
     bootstrap-servers:
-      - localhost:9092
+      -localhost:9092
