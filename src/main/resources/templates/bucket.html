@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Taco Bucket</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<h1>Your Taco Bucket</h1>
+
+<div th:if="${bucket != null && !bucket.tacos.isEmpty()}">
+    <div>
+        <h2>Tacos</h2>
+        <a th:href="@{/design}" id="another">Design another taco</a><br>
+        <ul>
+            <th:block th:each="taco : ${bucket.tacos}">
+                <li>
+                    <span th:text="${taco.name}">Taco Name</span> :
+                    <span th:text="${taco.calculatePrice()}"></span>
+                </li>
+            </th:block>
+        </ul>
+    </div>
+    <div>
+        <h2>Total Price</h2>
+        <span th:text="${bucket.totalPrice}"></span>
+    </div>
+
+    <form th:action="@{/bucket/checkout}" method="POST">
+        <div th:each="taco : ${bucket.tacos}">
+            <input type="hidden"  th:value="${taco.id}" />
+            <input type="hidden"  th:value="${taco.name}" />
+        </div>
+        <input type="hidden" name="totalPrice" th:value="${bucket.totalPrice}" />
+        <input type="hidden" name="id" th:value="${bucket.id}" />
+        <button type="submit">Proceed to Checkout</button>
+    </form>
+</div>
+
+<div th:if="${bucket == null || bucket.tacos.isEmpty()}">
+    <p>Your bucket is empty. <a th:href="@{/design}">Start designing your tacos</a>.</p>
+</div>
+</body>
+</html>

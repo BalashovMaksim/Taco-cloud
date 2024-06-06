@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <changeSet author="Maksim Balashov" id="20240410-03">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ingredient"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE ingredient (
+                                        id VARCHAR(4) NOT NULL ,
+                                        name VARCHAR(25) NOT NULL,
+                                        type VARCHAR(10) NOT NULL,
+                                        price FLOAT NOT NULL
+            );
+            CREATE UNIQUE INDEX idx_ingredient_id ON ingredient(id)
+        </sql>
+    </changeSet>
+
+
+    <changeSet author="Maksim Balashov" id="20240410-05">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM ingredient</sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO ingredient (id, name, type, price) VALUES
+                                                        ('FLTO', 'Flour Tortilla', 'WRAP', 135.00),
+                                                        ('COTO', 'Corn Tortilla', 'WRAP', 98.80),
+                                                        ('GRBF', 'Ground Beef', 'PROTEIN', 57.50),
+                                                        ('CARN', 'Carnitas', 'PROTEIN', 41.00),
+                                                        ('TMTO', 'Tomatoes', 'VEGGIES', 27.70),
+                                                        ('LETC', 'Lettuce', 'VEGGIES', 29.60),
+                                                        ('CHED', 'Cheddar', 'CHEESE', 30.50),
+                                                        ('JACK', 'Monterey Jack', 'CHEESE', 42.70),
+                                                        ('SLSA', 'Salsa', 'SAUCE', 10.20),
+                                                        ('SRCR', 'Sour Cream', 'SAUCE', 30.30)
+        </sql>
+    </changeSet>
+
+    <changeSet author="Maksim Balashov" id="20240417-01">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE users (
+                                   id SERIAL PRIMARY KEY,
+                                   username VARCHAR(15) NOT NULL,
+                                   password VARCHAR(130) NOT NULL,
+                                   fullname VARCHAR(17) NOT NULL,
+                                   street VARCHAR(11) NOT NULL,
+                                   city VARCHAR(10) NOT NULL,
+                                   state VARCHAR(2) NOT NULL,
+                                   zip VARCHAR(12) NOT NULL,
+                                   phone_number VARCHAR(9) NOT NULL,
+                                   role VARCHAR(10) NOT NULL
+            )
+        </sql>
+    </changeSet>
+
+    <changeSet author="Maksim Balashov" id="20240418-01">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM users</sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO users (username,password,fullname,street,city,state,zip,phone_number,role) VALUES
+                ('admin','$2a$12$sqZ7NXDb.AjuuBqbQ4lFUuGlZoaJZ6V.ExClhojRvvI/UHQY1IGjS','admin','none','none','no','none','none','ADMIN')
+        </sql>
+    </changeSet>
+
+    <changeSet author="Maksim Balashov" id="20240410-01">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="taco_order"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE taco_order (
+                                        id SERIAL PRIMARY KEY,
+                                        delivery_name VARCHAR(50) NOT NULL,
+                                        delivery_street VARCHAR(50) NOT NULL,
+                                        delivery_city VARCHAR(50) NOT NULL,
+                                        delivery_state VARCHAR(2) NOT NULL,
+                                        delivery_zip VARCHAR(10) NOT NULL,
+                                        cc_number VARCHAR(16) NOT NULL,
+                                        cc_expiration VARCHAR(5) NOT NULL,
+                                        cc_cvv VARCHAR(3) NOT NULL,
+                                        user_id BIGINT,
+                                        placed_at TIMESTAMP NOT NULL,
+                                        total_price DOUBLE PRECISION NOT NULL,
+                                        FOREIGN KEY (user_id) REFERENCES users(id)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet author="Maksim Balashov" id="20240410-02">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="taco"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE taco (
+                                    id SERIAL PRIMARY KEY,
+                                    name VARCHAR(50) NOT NULL,
+                                    taco_order_id BIGINT,
+                                    created_at TIMESTAMP NOT NULL,
+                                    FOREIGN KEY (taco_order_id) REFERENCES taco_order(id)
+            )
+        </sql>
+    </changeSet>
+
+    <changeSet author="Maksim Balashov" id="20240518-01">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="buckets"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE buckets (
+                                     id SERIAL PRIMARY KEY,
+                                     user_id BIGINT,
+                                     FOREIGN KEY (user_id) REFERENCES users(id)
+            )
+        </sql>
+    </changeSet>
+
+    <changeSet author="Maksim Balashov" id="20240518-02">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="buckets_tacos"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE buckets_tacos (
+                                           bucket_id BIGINT,
+                                           taco_id BIGINT,
+                                           PRIMARY KEY (bucket_id, taco_id),
+                                           FOREIGN KEY (bucket_id) REFERENCES buckets(id),
+                                           FOREIGN KEY (taco_id) REFERENCES taco(id)
+            )
+        </sql>
+    </changeSet>
+
+    <changeSet author="Maksim Balashov" id="20240410-04">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ingredient_ref"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE ingredient_ref (
+                                        ingredient_id VARCHAR(4) NOT NULL,
+                                        taco_id BIGINT NOT NULL,
+                                        PRIMARY KEY (ingredient_id, taco_id),
+                                        FOREIGN KEY (ingredient_id) REFERENCES ingredient(id),
+                                        FOREIGN KEY (taco_id) REFERENCES taco(id)
+            )
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
